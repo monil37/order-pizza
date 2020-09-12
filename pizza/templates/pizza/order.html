@@ -1,0 +1,45 @@
+
+   {% extends 'pizza/base.html' %}
+   {% load widget_tweaks %}
+   
+   {% block 'body' %}
+    <div class="container">
+
+    <h1>Order Page</h1>
+    <h1>{{ note }}</h1>
+
+    {% if created_pizza_pk %}
+    <a href="{% url 'edit_order' created_pizza_pk %}">Edit order</a>
+    {% endif %}
+
+    <fieldset>
+        <form action="{% url 'order' %}" method="POST">
+            {% csrf_token %}
+
+            {% for field in pizzaform %}
+            <div class="form-group">
+                {{ field.errors }}
+                {{ field.label_tag }}
+                {% render_field field class="form-control" %}
+
+            </div>
+
+            {% endfor %}
+                <!-- {{ pizzaform.as_table }} -->
+            
+            <input type="submit" value="Order Pizza" style="align-content: center;margin-left:40%;margin-top:30px">
+
+        </form>
+    </fieldset>
+
+    <br><br>
+    Want more than one pizza?
+    <form action="{% url 'pizzas' %}" method="GET">
+        {{ multiple_form }}
+        <input type="submit" value="Get Pizzas">
+    </form>
+    </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    
+{% endblock %}
